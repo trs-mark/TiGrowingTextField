@@ -1,0 +1,18 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 0.1
+apiversion: 2
+description: TiGrowingTextField
+author: jordi domenech
+license: Apache License, Version 2.0
+copyright: Copyright (c) 2012 by jordi domenech <jordi@iamyellow.net>
+
+
+# these should not be edited
+name: tigrowingtextfield
+moduleid: net.iamyellow.tigrowingtextfield
+guid: 83fb18ba-4a4a-4cd5-bbcd-b494156076db
+platform: iphone
+minsdk: 2.0.2
