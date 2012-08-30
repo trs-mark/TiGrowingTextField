@@ -51,6 +51,10 @@
         int returnKeyType = [TiUtils intValue:[[self proxy] valueForKey:@"returnKeyType"] def:UIReturnKeyDefault];
         textView.returnKeyType = returnKeyType;
         
+        // appearance
+        int appearance = [TiUtils intValue:[[self proxy] valueForKey:@"appearance"] def:UIKeyboardAppearanceDefault];
+        textView.internalTextView.keyboardAppearance = appearance;
+        
         // font
         UIFont* font = [[TiUtils fontValue:[[self proxy] valueForKey:@"font"] def:[WebFont defaultFont]] font];
         textView.font = font;

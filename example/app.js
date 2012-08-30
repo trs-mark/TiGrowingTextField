@@ -24,6 +24,8 @@ textField = require('net.iamyellow.tigrowingtextfield').createView({
 	backgroundLeftCap: 12,
 	backgroundTopCap: 20,
 	value: 'hellow',
+	// appearance 
+	appearance: Ti.UI.KEYBOARD_APPEARANCE_ALERT,
 	// text
 	autocorrect: false,
 	textAlign: 'left',
@@ -40,6 +42,10 @@ win.add(toolbar);
 // ****************************************************************************************************************
 // ****************************************************************************************************************
 // events
+
+win.addEventListener('click', function () {
+	textField.blur();
+});
 
 textField.addEventListener('focus', function (ev) {
 	Ti.API.info('////////////////////////////////////////////////////////////');

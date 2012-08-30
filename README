@@ -28,6 +28,8 @@ var textField = require('net.iamyellow.tigrowingtextfield').createView({
 	backgroundLeftCap: 12,
 	backgroundTopCap: 20,
 	value: 'hellow',
+	// appearance 
+	appearance: Ti.UI.KEYBOARD_APPEARANCE_ALERT,
 	// text stuff, works as Ti.UI.TextField
 	autocorrect: false, // disables / enables autocorrection
 	textAlign: 'left',
