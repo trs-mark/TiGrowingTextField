@@ -23,6 +23,7 @@
 {
     RELEASE_TO_NIL(textView);
     RELEASE_TO_NIL(entryImageView);
+    RELEASE_TO_NIL(text);
     [super dealloc];
 }
 
@@ -128,6 +129,9 @@
 
 -(void)growingTextViewDidChange:(HPGrowingTextView*)growingTextView
 {
+    RELEASE_TO_NIL(text);
+    text = [growingTextView.text retain];
+    
     TiProxy* proxy = [self proxy];
     if ([proxy _hasListeners:@"change"]) {
         NSMutableDictionary* event = [NSMutableDictionary dictionary];
@@ -157,7 +161,7 @@
 
 -(NSString*)text
 {
-    return textView.text;
+    return text;
 }
 
 -(void)setText:(NSString*)pText
