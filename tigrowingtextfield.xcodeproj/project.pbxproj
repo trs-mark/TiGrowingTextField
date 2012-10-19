@@ -33,8 +33,6 @@
 		FD5A9B7115B43B78000E206A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 		FD5A9B8015B43BB5000E206A /* HPGrowingTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = FD5A9B7C15B43BB5000E206A /* HPGrowingTextView.h */; };
 		FD5A9B8115B43BB5000E206A /* HPGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5A9B7D15B43BB5000E206A /* HPGrowingTextView.m */; };
-		FD5A9B8215B43BB5000E206A /* HPTextViewInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = FD5A9B7E15B43BB5000E206A /* HPTextViewInternal.h */; };
-		FD5A9B8315B43BB5000E206A /* HPTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5A9B7F15B43BB5000E206A /* HPTextViewInternal.m */; };
 		FD5A9B8615B43BDC000E206A /* libGrowingTextView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD5A9B7015B43B78000E206A /* libGrowingTextView.a */; };
 /* End PBXBuildFile section */
 
@@ -70,8 +68,6 @@
 		FD5A9B7415B43B78000E206A /* GrowingTextView-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GrowingTextView-Prefix.pch"; sourceTree = "<group>"; };
 		FD5A9B7C15B43BB5000E206A /* HPGrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPGrowingTextView.h; sourceTree = "<group>"; };
 		FD5A9B7D15B43BB5000E206A /* HPGrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPGrowingTextView.m; sourceTree = "<group>"; };
-		FD5A9B7E15B43BB5000E206A /* HPTextViewInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTextViewInternal.h; sourceTree = "<group>"; };
-		FD5A9B7F15B43BB5000E206A /* HPTextViewInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTextViewInternal.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,8 +147,6 @@
 			children = (
 				FD5A9B7C15B43BB5000E206A /* HPGrowingTextView.h */,
 				FD5A9B7D15B43BB5000E206A /* HPGrowingTextView.m */,
-				FD5A9B7E15B43BB5000E206A /* HPTextViewInternal.h */,
-				FD5A9B7F15B43BB5000E206A /* HPTextViewInternal.m */,
 				FD5A9B7315B43B78000E206A /* Supporting Files */,
 			);
 			path = GrowingTextView;
@@ -185,7 +179,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD5A9B8015B43BB5000E206A /* HPGrowingTextView.h in Headers */,
-				FD5A9B8215B43BB5000E206A /* HPTextViewInternal.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,7 +279,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD5A9B8115B43BB5000E206A /* HPGrowingTextView.m in Sources */,
-				FD5A9B8315B43BB5000E206A /* HPTextViewInternal.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,6 +601,7 @@
 				FD5A9B7915B43B78000E206A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

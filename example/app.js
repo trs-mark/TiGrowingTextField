@@ -3,6 +3,8 @@
 // GUI setup
 
 var win = Ti.UI.createWindow({
+	width: Ti.UI.FILL, height: Ti.UI.FILL,
+	top: 0, left: 0,
 	backgroundColor: '#fff'
 }),
 toolbar = Ti.UI.createView({
@@ -14,16 +16,16 @@ toolbar = Ti.UI.createView({
 textField = require('net.iamyellow.tigrowingtextfield').createView({
 	// layout, as any other view
 	height: 40, // 40 is the minimum
-	left: 10, right: 10,
+	top: 0, left: 10, right: 10,
 	// growing / shrink
 	minNumberOfLines: 1, // default = 1
-	maxNumberOfLines: 10, // default = 3,
+	maxNumberOfLines: 8, // default = 3,
 	showKeyboardImmediately: true,
 	// background
 	backgroundImage: 'images/MessageEntryInputField.png',
 	backgroundLeftCap: 12,
 	backgroundTopCap: 20,
-	value: 'hellow',
+	puta: 'hellow',
 	// appearance 
 	appearance: Ti.UI.KEYBOARD_APPEARANCE_ALERT,
 	// text
@@ -48,19 +50,19 @@ win.addEventListener('click', function () {
 });
 
 textField.addEventListener('focus', function (ev) {
-	Ti.API.info('////////////////////////////////////////////////////////////');
-	Ti.API.info('** focused');
+	//Ti.API.info('////////////////////////////////////////////////////////////');
+	//Ti.API.info('** focused');
 });
 
 textField.addEventListener('change', function (ev) {
-	Ti.API.info('////////////////////////////////////////////////////////////');
-	Ti.API.info('my value is: ' + ev.value);
-	Ti.API.info('my height is: ' + ev.height);
+	//Ti.API.info('////////////////////////////////////////////////////////////');
+	//Ti.API.info('my value is: ' + ev.value);
+	//Ti.API.info('my height is: ' + ev.height);
 });
 
 textField.addEventListener('blur', function (ev) {
-	Ti.API.info('////////////////////////////////////////////////////////////');
-	Ti.API.info('** blurred');
+	//Ti.API.info('////////////////////////////////////////////////////////////');
+	//Ti.API.info('** blurred');
 });
 
 // ****************************************************************************************************************
@@ -68,7 +70,7 @@ textField.addEventListener('blur', function (ev) {
 // some value change test
 
 setTimeout(function () {
-	textField.value += ' yellow!';
+	//textField.value += ' yellow!';
 }, 3000);
 
 

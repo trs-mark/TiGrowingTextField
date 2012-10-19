@@ -29,12 +29,12 @@
 
 -(void)frameSizeChanged:(CGRect)frame bounds:(CGRect)bounds
 {
-    CGRect textViewFrame = CGRectMake(0, 6, bounds.size.width, bounds.size.height - 3);
-    CGRect entryImageFrame = CGRectMake(0, 0, bounds.size.width, bounds.size.height);
-
+    CGRect textViewFrame = CGRectMake(0, 4, frame.size.width, frame.size.height);
+    CGRect entryImageFrame = CGRectMake(0, 0, frame.size.width, frame.size.height);
+ 
     if (textView == nil) {
         // init
-        textView = [[HPGrowingTextView alloc] initWithFrame:textViewFrame];
+        textView = [[HPGrowingTextView alloc] initWidthText:text ? text : @""];
         textView.delegate = self;
 
         // become first responder
@@ -102,28 +102,21 @@
             [TiUtils setView:entryImageView positionRect:entryImageFrame];
             [self addSubview: entryImageView];
         }
-
-        id value = [[self proxy] valueForKey:@"value"];
-        if (value) {
-            [self setText:value];
-        }
     }
     else {
         [TiUtils setView:textView positionRect:textViewFrame];
         [TiUtils setView:entryImageView positionRect:entryImageFrame];
     }
-
-    [textView layoutSubviews];
 }
 
 #pragma mark HPGrowingTextView Delegate
 
 -(void)growingTextView:(HPGrowingTextView*)growingTextView willChangeHeight:(float)height
 {
-    CGRect frame = self.frame;
-    frame.size.height -= growingTextView.frame.size.height - height;
-    
-    viewHeight = frame.size.height < 40 ? 40 : frame.size.height;
+    viewHeight = height + 4;
+    viewHeight = viewHeight > 40 ? viewHeight : 40;
+    CGRect frame = textView.frame;
+    frame.size.height = viewHeight;
     [(TiViewProxy*)[self proxy] setHeight:NUMFLOAT(viewHeight)];
 }
 
@@ -161,25 +154,37 @@
 
 -(NSString*)text
 {
-    return text;
+    if (text) {
+        return text;
+    }
+    return NULL;
 }
 
 -(void)setText:(NSString*)pText
 {
-    ENSURE_UI_THREAD_1_ARG(pText);
-    [textView setText:pText];
+    if (textView == nil) {
+        text = [pText retain];
+    }
+    else {
+        ENSURE_UI_THREAD_1_ARG(pText);
+        [textView setText:pText];
+    }
 }
 
 -(void)focus
 {
-    ENSURE_UI_THREAD_0_ARGS;
-    [textView becomeFirstResponder];
+    if (textView) {
+        ENSURE_UI_THREAD_0_ARGS;
+        [textView becomeFirstResponder];
+    }
 }
 
 -(void)blur
 {
-    ENSURE_UI_THREAD_0_ARGS;
-    [textView resignFirstResponder];
+    if (textView) {
+        ENSURE_UI_THREAD_0_ARGS;
+        [textView resignFirstResponder];
+    }
 }
 
 @end

@@ -28,7 +28,6 @@
 #import <UIKit/UIKit.h>
 
 @class HPGrowingTextView;
-@class HPTextViewInternal;
 
 @protocol HPGrowingTextViewDelegate
 
@@ -50,10 +49,10 @@
 @end
 
 @interface HPGrowingTextView : UIView <UITextViewDelegate> {
-	HPTextViewInternal *internalTextView;	
+	UITextView *internalTextView;	
 	
-	int minHeight;
-	int maxHeight;
+	CGFloat minHeight;
+	CGFloat maxHeight;
 	
 	//class properties
 	int maxNumberOfLines;
@@ -68,8 +67,6 @@
 	BOOL editable;
 	UIDataDetectorTypes dataDetectorTypes;
 	UIReturnKeyType returnKeyType;
-    
-    UIEdgeInsets contentInset;
 }
 
 //real class properties
@@ -89,11 +86,11 @@
 @property(nonatomic,getter=isEditable) BOOL editable;
 @property(nonatomic) UIDataDetectorTypes dataDetectorTypes __OSX_AVAILABLE_STARTING(__MAC_NA, __IPHONE_3_0);
 @property (nonatomic) UIReturnKeyType returnKeyType;
-@property (assign) UIEdgeInsets contentInset;
 @property(nonatomic) BOOL enablesReturnKeyAutomatically;
 
 //uitextview methods
 //need others? use .internalTextView
+-(id)initWidthText:(NSString*)text;
 - (BOOL)becomeFirstResponder;
 - (BOOL)resignFirstResponder;
 - (BOOL)isFirstResponder;
