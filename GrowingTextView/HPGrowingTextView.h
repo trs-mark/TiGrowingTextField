@@ -28,6 +28,7 @@
 #import <UIKit/UIKit.h>
 
 @class HPGrowingTextView;
+@class HPTextViewInternal;
 
 @protocol HPGrowingTextViewDelegate
 
@@ -49,16 +50,17 @@
 @end
 
 @interface HPGrowingTextView : UIView <UITextViewDelegate> {
-	UITextView *internalTextView;	
+	HPTextViewInternal *internalTextView;	
 	
-	CGFloat minHeight;
-	CGFloat maxHeight;
+	int minHeight;
+	int maxHeight;
 	
 	//class properties
 	int maxNumberOfLines;
 	int minNumberOfLines;
 	
 	BOOL animateHeightChange;
+    NSTimeInterval animationDuration;
 	
 	//uitextview properties
 	NSObject <HPGrowingTextViewDelegate> *__unsafe_unretained delegate;
@@ -67,12 +69,19 @@
 	BOOL editable;
 	UIDataDetectorTypes dataDetectorTypes;
 	UIReturnKeyType returnKeyType;
+    
+    UIEdgeInsets contentInset;
 }
 
 //real class properties
 @property int maxNumberOfLines;
 @property int minNumberOfLines;
+@property (nonatomic) int maxHeight;
+@property (nonatomic) int minHeight;
 @property BOOL animateHeightChange;
+@property NSTimeInterval animationDuration;
+@property (nonatomic, strong) NSString *placeholder;
+@property (nonatomic, strong) UIColor *placeholderColor;
 @property (nonatomic, strong) UITextView *internalTextView;	
 
 
@@ -86,16 +95,20 @@
 @property(nonatomic,getter=isEditable) BOOL editable;
 @property(nonatomic) UIDataDetectorTypes dataDetectorTypes __OSX_AVAILABLE_STARTING(__MAC_NA, __IPHONE_3_0);
 @property (nonatomic) UIReturnKeyType returnKeyType;
+@property (assign) UIEdgeInsets contentInset;
+@property (nonatomic) BOOL isScrollable;
 @property(nonatomic) BOOL enablesReturnKeyAutomatically;
 
 //uitextview methods
 //need others? use .internalTextView
--(id)initWidthText:(NSString*)text;
 - (BOOL)becomeFirstResponder;
 - (BOOL)resignFirstResponder;
 - (BOOL)isFirstResponder;
 
 - (BOOL)hasText;
 - (void)scrollRangeToVisible:(NSRange)range;
+
+// call to force a height change (e.g. after you change max/min lines)
+- (void)refreshHeight;
 
 @end

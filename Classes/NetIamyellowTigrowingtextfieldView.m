@@ -16,6 +16,7 @@
 
 #import "NetIamyellowTigrowingtextfieldView.h"
 #import "TiHost.h"
+#import "TiViewProxy.h"
 
 @implementation NetIamyellowTigrowingtextfieldView
 
@@ -29,13 +30,18 @@
 
 -(void)frameSizeChanged:(CGRect)frame bounds:(CGRect)bounds
 {
-    CGRect textViewFrame = CGRectMake(0, 4, frame.size.width, frame.size.height);
-    CGRect entryImageFrame = CGRectMake(0, 0, frame.size.width, frame.size.height);
- 
+    if (bounds.size.width == 0 || bounds.size.height == 0) {
+        return;
+    }
+    
     if (textView == nil) {
+        userHeight = bounds.size.height;
+        topCorrectionPadding = [TiUtils floatValue:[[self proxy] valueForKey:@"topCorrectionPadding"] def:0.0f];
+        
         // init
-        textView = [[HPGrowingTextView alloc] initWidthText:text ? text : @""];
-        textView.delegate = self;
+        textView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(0, topCorrectionPadding,
+                                                                       frame.size.width, frame.size.height)];
+        textView.text = text ? text : @"";
 
         // become first responder
         if ([TiUtils boolValue:[[self proxy] valueForKey:@"showKeyboardImmediately"] def:NO]) {
@@ -43,17 +49,22 @@
         }
         
         // lines
-        int minNumberOfLines = [TiUtils intValue:[[self proxy] valueForKey:@"minNumberOfLines"] def:1];
-        int maxNumberOfLines = [TiUtils intValue:[[self proxy] valueForKey:@"maxNumberOfLines"] def:3];
+        NSInteger minNumberOfLines = [TiUtils intValue:[[self proxy] valueForKey:@"minNumberOfLines"] def:1];
+        NSInteger maxNumberOfLines = [TiUtils intValue:[[self proxy] valueForKey:@"maxNumberOfLines"] def:3];
         textView.minNumberOfLines = minNumberOfLines;
         textView.maxNumberOfLines = maxNumberOfLines;
+        
+        // sides padding
+        CGFloat sidesPadding = [TiUtils floatValue:[[self proxy] valueForKey:@"sidesPadding"] def:0.0f];
+        textView.contentInset = UIEdgeInsetsMake(0, sidesPadding, 10, sidesPadding);
+        textView.internalTextView.scrollIndicatorInsets = UIEdgeInsetsMake(0, sidesPadding, 0, sidesPadding);
 
         // return key type
-        int returnKeyType = [TiUtils intValue:[[self proxy] valueForKey:@"returnKeyType"] def:UIReturnKeyDefault];
+        NSInteger returnKeyType = [TiUtils intValue:[[self proxy] valueForKey:@"returnKeyType"] def:UIReturnKeyDefault];
         textView.returnKeyType = returnKeyType;
         
         // appearance
-        int appearance = [TiUtils intValue:[[self proxy] valueForKey:@"appearance"] def:UIKeyboardAppearanceDefault];
+        NSInteger appearance = [TiUtils intValue:[[self proxy] valueForKey:@"appearance"] def:UIKeyboardAppearanceDefault];
         textView.internalTextView.keyboardAppearance = appearance;
         
         // font
@@ -67,7 +78,7 @@
         // colors
         id pBackgroundColor = [[self proxy] valueForKey:@"backgroundColor"];
         if (pBackgroundColor) {
-            textView.backgroundColor = [[TiUtils colorValue:pBackgroundColor] _color];
+            //textView.backgroundColor = [[TiUtils colorValue:pBackgroundColor] _color];
             self.backgroundColor = [[TiUtils colorValue:pBackgroundColor] _color];
         }
         else {
@@ -85,39 +96,54 @@
             textView.textAlignment = [TiUtils textAlignmentValue:pTextAlignment];
         }
         
+        textView.delegate = self;
+        
         // add the text view
         [self addSubview: textView];
 
         // entry background image
         id pEntryImage = [[self proxy] valueForKey:@"backgroundImage"];
         if (pEntryImage) {
-            int backgroundLeftCap = [TiUtils intValue:[[self proxy] valueForKey:@"backgroundLeftCap"] def:0],
+            NSInteger backgroundLeftCap = [TiUtils intValue:[[self proxy] valueForKey:@"backgroundLeftCap"] def:0],
             backgroundTopCap = [TiUtils intValue:[[self proxy] valueForKey:@"backgroundTopCap"] def:0];
             
-            entryImageView = [[UIImageView alloc] init];
-            entryImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-            NSString* imgName = [[TiHost resourcePath] 
+            entryImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0,
+                                                                           self.frame.size.width,
+                                                                           self.frame.size.height)];
+            NSString* imgName = [[TiHost resourcePath]
                                  stringByAppendingPathComponent:pEntryImage];
             [entryImageView setImage:[[UIImage imageWithContentsOfFile:imgName] stretchableImageWithLeftCapWidth:backgroundLeftCap topCapHeight:backgroundTopCap]];
-            [TiUtils setView:entryImageView positionRect:entryImageFrame];
             [self addSubview: entryImageView];
         }
     }
     else {
-        [TiUtils setView:textView positionRect:textViewFrame];
-        [TiUtils setView:entryImageView positionRect:entryImageFrame];
+        if (lastWidth != frame.size.width) {
+            // width has changed (e.g. orientation change)
+            CGRect textViewFrame = textView.frame;
+            textViewFrame.size.width = frame.size.width;
+            textView.frame = textViewFrame;
+        }
+
+        CGRect entryImageViewFrame = entryImageView.frame;
+        entryImageViewFrame.size = frame.size;
+        entryImageView.frame = entryImageViewFrame;
     }
+    
+    lastWidth = frame.size.width;
 }
 
 #pragma mark HPGrowingTextView Delegate
 
 -(void)growingTextView:(HPGrowingTextView*)growingTextView willChangeHeight:(float)height
 {
-    viewHeight = height + 4;
-    viewHeight = viewHeight > 40 ? viewHeight : 40;
-    CGRect frame = textView.frame;
-    frame.size.height = viewHeight;
-    [(TiViewProxy*)[self proxy] setHeight:NUMFLOAT(viewHeight)];
+    CGFloat newViewHeight = height > userHeight ? height + topCorrectionPadding : userHeight;
+    if (newViewHeight == viewHeight) {
+        return;
+    }
+    viewHeight = newViewHeight;
+    
+    TiViewProxy* myProxy = (TiViewProxy*)[self proxy];
+    [myProxy setHeight:NUMFLOAT(viewHeight)];
 }
 
 -(void)growingTextViewDidChange:(HPGrowingTextView*)growingTextView

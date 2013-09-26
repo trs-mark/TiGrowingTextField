@@ -20,8 +20,12 @@
 @interface NetIamyellowTigrowingtextfieldView : TiUIView <HPGrowingTextViewDelegate> {
     HPGrowingTextView* textView;
     UIImageView* entryImageView;
-    float viewHeight;
     NSString* text;
+
+    CGFloat userHeight;
+    CGFloat viewHeight;
+    CGFloat lastWidth;
+    CGFloat topCorrectionPadding;
 }
 
 -(NSString*)text;
