@@ -75,6 +75,10 @@
         BOOL autocorrect = [TiUtils boolValue:[[self proxy] valueForKey:@"autocorrect"] def:NO];
         textView.internalTextView.autocorrectionType = autocorrect ? UITextAutocorrectionTypeYes : UITextAutocorrectionTypeNo;
 
+        // scrollsToTop
+        BOOL scrollsToTop = [TiUtils boolValue:[[self proxy] valueForKey:@"scrollsToTop"] def:YES];
+        textView.internalTextView.scrollsToTop = scrollsToTop;
+        
         // colors
         id pBackgroundColor = [[self proxy] valueForKey:@"backgroundColor"];
         if (pBackgroundColor) {
